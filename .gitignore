@@ -1,0 +1,69 @@
+# Secrets - NEVER COMMIT
+*.key
+*.pem
+*.crt
+.env
+secrets.yml
+credentials.json
+config.yml
+wg0.conf
+wireguard/wg*.conf
+admin_token.txt
+**/private-keys/
+
+# Data directories
+*/data/
+**/volume/
+vaultwarden/data/
+grafana/data/
+prometheus/data/
+loki/data/
+*/backup/
+
+# Logs
+*.log
+logs/
+*/logs/
+
+# Backups
+*.bak
+*.backup
+backup/
+*-backup.tar.gz
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.venv/
+.Python
+*.egg-info/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Keep these template files
+!*.template
+!*.example
+!*-example.yml
