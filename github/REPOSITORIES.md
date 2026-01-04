@@ -27,7 +27,7 @@ Master reference for all GitHub repositories in the Honey Duo ecosystem.
 - Work on either system
 - Commit and push frequently
 - Pull on other system before starting work
-- See: `docs/github-workflow.md`
+- See: `github/github-workflow-guide.md`
 
 ---
 
@@ -196,7 +196,7 @@ When creating a new project repository:
 6. **First commit** with basic structure
 7. **Share with Claude** for initial review
 
-See: `docs/github-workflow.md` → "Adding New Repositories"
+See: `github/github-workflow-guide.md` → "Adding New Repositories"
 
 ---
 
