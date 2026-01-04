@@ -2,16 +2,21 @@
 
 Cloud backup storage for all Honey Duo systems.
 
-**Status:** ✅ Running on Pi  
-**Mount Point:** `/home/honeyduopi/OneDrive`  
-**Service:** `rclone-onedrive.service`
+---
+
+## System Status
+
+| System | Status | Mount Point | Service |
+|--------|--------|-------------|---------|
+| Raspberry Pi | ✅ Running | `/home/honeyduopi/OneDrive` | `rclone-onedrive.service` |
+| Ubuntu | ✅ Running | `/home/honey-duo/OneDrive-rclone` | `rclone-onedrive.service` |
 
 ---
 
 ## Backup Directory Structure
 ```
 OneDrive/Backups/
-├── Vaultwarden/     # Daily Vaultwarden database backups
+├── Vaultwarden/     # Daily Vaultwarden database backups (from Pi)
 ├── Pi/              # Pi system configs and data
 └── Ubuntu/          # Ubuntu system configs and data
 ```
@@ -19,29 +24,51 @@ OneDrive/Backups/
 ---
 
 ## Service Management
+
+### Raspberry Pi
 ```bash
 # Check status
 sudo systemctl status rclone-onedrive
 
-# Restart if needed
+# Restart
 sudo systemctl restart rclone-onedrive
 
 # View logs
 tail -f /var/log/rclone-onedrive.log
 
-# Check if mounted
+# Check mount
 ls -la /home/honeyduopi/OneDrive/
+```
+
+### Ubuntu
+```bash
+# Check status
+sudo systemctl status rclone-onedrive
+
+# Restart
+sudo systemctl restart rclone-onedrive
+
+# View logs
+tail -f /var/log/rclone-onedrive.log
+
+# Check mount
+ls -la /home/honey-duo/OneDrive-rclone/
 ```
 
 ---
 
-## Configuration
+## Configuration Files
 
-**rclone config location:** `~/.config/rclone/rclone.conf`
+### rclone config
+- **Pi:** `~/.config/rclone/rclone.conf`
+- **Ubuntu:** `~/.config/rclone/rclone.conf`
 
-**Systemd service:** `/etc/systemd/system/rclone-onedrive.service`
+Both use the same Microsoft authentication token.
 
-**Mount options:**
+### Systemd service
+- **Both systems:** `/etc/systemd/system/rclone-onedrive.service`
+
+### Mount options (both systems)
 - `--vfs-cache-mode full` - Full file caching for reliability
 - `--vfs-cache-max-age 24h` - Cache files for 24 hours
 - `--dir-cache-time 72h` - Cache directory listings for 72 hours
@@ -51,14 +78,14 @@ ls -la /home/honeyduopi/OneDrive/
 
 ## Manual Operations
 
-**Copy file to OneDrive (without mount):**
+**Copy file to OneDrive:**
 ```bash
 rclone copy /local/file onedrive:Backups/Pi/
 ```
 
 **Sync folder to OneDrive:**
 ```bash
-rclone sync /local/folder onedrive:Backups/Pi/folder-name
+rclone sync /local/folder onedrive:Backups/Ubuntu/folder-name
 ```
 
 **List OneDrive contents:**
@@ -79,36 +106,30 @@ sudo systemctl status rclone-onedrive
 # Check logs
 tail -50 /var/log/rclone-onedrive.log
 
-# Try manual mount
+# Try manual mount (Pi)
 rclone mount onedrive: /home/honeyduopi/OneDrive --vfs-cache-mode full
+
+# Try manual mount (Ubuntu)
+rclone mount onedrive: /home/honey-duo/OneDrive-rclone --vfs-cache-mode full
 ```
 
 ### Authentication expired
 ```bash
-# Re-authenticate
+# Re-authenticate (run on one system, copy config to other)
 rclone config reconnect onedrive:
 ```
 
 ### Mount point busy
 ```bash
-# Force unmount
+# Force unmount (Pi)
 sudo fusermount -uz /home/honeyduopi/OneDrive
+
+# Force unmount (Ubuntu)
+sudo fusermount -uz /home/honey-duo/OneDrive-rclone
 
 # Restart service
 sudo systemctl restart rclone-onedrive
 ```
-
----
-
-## Ubuntu Setup (Future)
-
-To set up OneDrive on Ubuntu system:
-
-1. Install rclone: `sudo apt install rclone`
-2. Copy config from Pi: `~/.config/rclone/rclone.conf`
-3. Create mount point: `mkdir -p /home/honey-duo/OneDrive`
-4. Copy systemd service (adjust paths for Ubuntu user)
-5. Enable and start service
 
 ---
 
@@ -120,5 +141,18 @@ To set up OneDrive on Ubuntu system:
 
 ---
 
+## Notes
+
+### Ubuntu Legacy OneDrive Client
+Ubuntu previously had the native `onedrive` client installed (abraunegg/onedrive).
+This has been disabled in favor of rclone for consistency across both systems.
+
+The old sync folder remains at `/home/honey-duo/OneDrive` but is no longer actively synced.
+The new rclone mount is at `/home/honey-duo/OneDrive-rclone`.
+
+A symlink exists: `/home/honey-duo/OneDrive-Cloud -> /home/honey-duo/OneDrive-rclone`
+
+---
+
 **Last Updated:** January 4, 2026  
-**Installed On:** Raspberry Pi 5
+**Installed On:** Raspberry Pi 5, Ubuntu RTX 3090
