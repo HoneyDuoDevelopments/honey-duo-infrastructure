@@ -67,3 +67,4 @@ docker-compose.override.yml
 !*.template
 !*.example
 !*-example.yml
+pi/vaultwarden/data/
