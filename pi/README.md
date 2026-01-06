@@ -2,62 +2,75 @@
 
 All services deployed on Raspberry Pi 5 (192.168.0.193)
 
-## Existing Services (Pre-Phase 0)
+## Live Services
 
-### Pi-hole (Port 53, 80)
-- **Location:** `/home/honeyduopi/Pi-hole`
-- **Purpose:** DNS + network-wide ad blocking
-- **Access:** http://192.168.0.193/admin
-- **Status:** ✅ Running
-- **Integration:** Configs in `pi/pi-hole/`
+### Portal (Port 5000)
+- **Location:** `/home/honeyduopi/portal`
+- **Purpose:** Central service dashboard
+- **Access:** https://honey-duo.com
+- **Service:** `honeyduo-portal.service`
+- **Docs:** [pi/portal/README.md](portal/README.md)
 
-### Flask Gaming App (Port 5000)
-- **Location:** `/home/honeyduopi/Desktop/HoneyDuoGaming/app.py`
+### Gaming (Port 5001)
+- **Location:** `/home/honeyduopi/Desktop/HoneyDuoGaming`
 - **Purpose:** N64 emulation web control
-- **Access:** https://pi.honey-duo.com (Cloudflare tunnel)
-- **Status:** ✅ Running
-- **Integration:** Monitoring configs in this repo
-
-### OneDrive Mount
-- **Location:** `/home/honeyduopi/OneDrive`
-- **Purpose:** Cloud backup integration
-- **Status:** ✅ Mounted
-- **Used by:** Vaultwarden backups (Phase 0)
-
-## Phase 0 New Services
+- **Access:** https://games.honey-duo.com
+- **Service:** `honeyduo-gaming.service`
+- **Docs:** [pi/gaming/README.md](gaming/README.md)
 
 ### Vaultwarden (Port 8080)
 - **Location:** `~/honey-duo-infrastructure/pi/vaultwarden/`
 - **Purpose:** Self-hosted password manager
 - **Access:** https://vault.honey-duo.com
-- **Config:** `vaultwarden/docker-compose.yml`
-- **Data:** Backed up daily to OneDrive
+- **Service:** Docker containers
+- **Docs:** [pi/vaultwarden/README.md](vaultwarden/README.md)
+
+### Pi-hole (Port 53, 80)
+- **Location:** System-wide (`/etc/pihole/`)
+- **Purpose:** DNS + network-wide ad blocking
+- **Access:** https://pihole.honey-duo.com/admin
+- **Service:** `pihole-FTL.service`
+- **Docs:** [pi/pi-hole/README.md](pi-hole/README.md)
+
+## Phase 0 Services (Coming)
 
 ### Uptime Kuma (Port 3001)
-- **Location:** `~/honey-duo-infrastructure/pi/uptime-kuma/`
 - **Purpose:** Service monitoring with Discord alerts
-- **Access:** http://192.168.0.193:3001
-- **Config:** `uptime-kuma/docker-compose.yml`
+- **Access:** https://status.honey-duo.com
+- **Docs:** [pi/uptime-kuma/README.md](uptime-kuma/README.md)
 
 ### WireGuard VPN (Port 51820 UDP)
-- **Location:** `/etc/wireguard/wg0.conf`
 - **Purpose:** Secure remote access to home network
-- **VPN Network:** 10.8.0.0/24
-- **Configs:** `wireguard/`
+- **Docs:** [pi/wireguard/README.md](wireguard/README.md)
 
-### Web Terminal - ttyd (Port 7681)
-- **Purpose:** Emergency shell access via browser
-- **Access:** https://terminal-pi.honey-duo.com (2FA required)
-- **Config:** `/etc/systemd/system/ttyd-pi.service`
+## Cloudflare Tunnel
 
-### Exporters
-- **Node Exporter (Port 9100):** System metrics for Prometheus
-- **Promtail:** Log shipping to Loki
+**Tunnel ID:** fe770a64-3546-4bc5-99c3-7f9726cf84e3  
+**Config:** `/etc/cloudflared/config.yml`
 
-## Deployment
+Current routes:
+```yaml
+ingress:
+  - hostname: honey-duo.com        → localhost:5000 (Portal)
+  - hostname: games.honey-duo.com  → localhost:5001 (Gaming)
+  - hostname: vault.honey-duo.com  → localhost:8080 (Vaultwarden)
+  - hostname: pihole.honey-duo.com → localhost:80 (Pi-hole)
+```
 
-**Existing services:** Already running, documented only  
-**New services:** Deployed via Docker Compose or systemd during Phase 0
+## Quick Commands
+```bash
+# Check all services
+sudo systemctl status honeyduo-portal honeyduo-gaming pihole-FTL cloudflared
+
+# Restart a service
+sudo systemctl restart honeyduo-portal
+
+# View logs
+journalctl -u honeyduo-portal -f
+
+# Check tunnel
+sudo systemctl status cloudflared
+```
 
 ## Maintenance
 

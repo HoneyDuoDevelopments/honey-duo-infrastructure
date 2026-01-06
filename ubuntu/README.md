@@ -2,61 +2,82 @@
 
 All services deployed on Ubuntu RTX 3090 system (192.168.0.245)
 
-## Existing Services (Pre-Phase 0)
+## Current Status
 
-### honey-duo-web Monitoring App
-- **Location:** `/home/honey-duo/webUI/honey-duo-web`
-- **Purpose:** Basic GPU and system monitoring
-- **Ports:** Frontend 3000, Backend 3001
-- **Access:** https://honey-duo.com (Cloudflare tunnel)
-- **Status:** ✅ Running
-- **Future:** Will coexist with Grafana, eventually deprecated
+The Ubuntu system is prepared for Phase 0 monitoring stack and Phase 1 GPU workloads.
 
-## Phase 0 New Services
+## Cloudflare Tunnel (Ready for Future Services)
+
+**Tunnel ID:** 2f0be609-2dee-4e1a-be2f-c8f83648421e  
+**Config:** `/etc/cloudflared/config.yml`
+
+Currently no active routes - ready for:
+```yaml
+ingress:
+  # Phase 0
+  - hostname: monitor.honey-duo.com  → localhost:3000 (Grafana)
+  
+  # Phase 1  
+  - hostname: design.honey-duo.com   → localhost:8188 (DesignDuo/ComfyUI)
+  
+  # Future
+  - hostname: ira.honey-duo.com      → localhost:xxxx (IRA Trading)
+```
+
+## Phase 0 Services (Coming)
 
 ### Prometheus (Port 9090)
-- **Location:** `~/honey-duo-infrastructure/ubuntu/monitoring/prometheus/`
 - **Purpose:** Metrics collection and storage
-- **Config:** `monitoring/prometheus/prometheus.yml`
 - **Retention:** 30 days
-- **Scrape Interval:** 15 seconds
-- **Access:** http://192.168.0.245:9090 (VPN only)
+- **Scrapes:** Both Pi and Ubuntu metrics
 
 ### Grafana (Port 3000)
-- **Location:** `~/honey-duo-infrastructure/ubuntu/monitoring/grafana/`
 - **Purpose:** Metrics visualization and dashboards
-- **Access:** http://192.168.0.245:3000 (VPN only)
-- **Config:** `monitoring/grafana/`
-- **Dashboards:** Stored in `monitoring/grafana/dashboards/`
+- **Access:** https://monitor.honey-duo.com (VPN recommended)
 
 ### Loki (Port 3100)
-- **Location:** `~/honey-duo-infrastructure/ubuntu/monitoring/loki/`
 - **Purpose:** Log aggregation and storage
-- **Config:** `monitoring/loki/loki-config.yml`
 - **Retention:** 7 days
-- **Access:** Internal only (scraped by Grafana)
 
 ### Alertmanager (Port 9093)
-- **Location:** `~/honey-duo-infrastructure/ubuntu/monitoring/alertmanager/`
 - **Purpose:** Alert routing to Discord
-- **Config:** `monitoring/alertmanager/alertmanager.yml`
-- **Access:** Internal only
-
-### Web Terminal - ttyd (Port 7682)
-- **Purpose:** Emergency shell access via browser
-- **Access:** https://terminal-ubuntu.honey-duo.com (2FA required)
-- **Config:** `/etc/systemd/system/ttyd-ubuntu.service`
 
 ### Exporters
-- **Node Exporter (Port 9100):** System metrics
-- **GPU Exporter (Port 9101):** RTX 3090 metrics
-- **Promtail:** Log shipping to Loki
+- Node Exporter (Port 9100) - System metrics
+- GPU Exporter (Port 9101) - RTX 3090 metrics
+- Promtail - Log shipping to Loki
 
-## Deployment
+## Phase 1 Services (Planned)
+
+### DesignDuo / ComfyUI (Port 8188)
+- **Purpose:** AI image generation for Sticker Duo
+- **GPU:** RTX 3090 (24GB VRAM)
+- **Access:** https://design.honey-duo.com
+
+## Future Services
+
+### IRA Trading
+- **Purpose:** Automated trading algorithms
+- **Status:** Planning phase
+
+## Quick Commands
 ```bash
-cd ~/honey-duo-infrastructure/ubuntu/monitoring
-docker-compose up -d
+# Check tunnel status
+sudo systemctl status cloudflared
+
+# Restart tunnel
+sudo systemctl restart cloudflared
+
+# Check GPU
+nvidia-smi
+
+# Check what's listening
+ss -tlnp
 ```
+
+## Adding New Services
+
+See [Integration Guide](../docs/integration-guide.md)
 
 ## Maintenance
 

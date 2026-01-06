@@ -10,7 +10,7 @@
 
 Web-based control interface for RetroArch N64 emulation. Allows remote game launching, save state management, and cheat code support via web browser.
 
-**External Access:** https://pi.honey-duo.com (Cloudflare tunnel)
+**External Access:** https://games.honey-duo.com (Cloudflare tunnel)
 
 ---
 
@@ -62,7 +62,7 @@ WantedBy=multi-user.target
 ### Application Settings
 
 - **Port:** 5000 (internal)
-- **External Access:** https://pi.honey-duo.com
+- **External Access:** https://games.honey-duo.com
 - **ROM Directory:** `/home/honeyduopi/Desktop/HoneyDuoGaming/N64`
 - **Log File:** `/home/honeyduopi/Desktop/HoneyDuoGaming/flask.log`
 
@@ -74,13 +74,13 @@ WantedBy=multi-user.target
 
 **Monitor Configuration:**
 - **Type:** HTTP(s)
-- **URL:** http://localhost:5000
+- **URL:** http://localhost:5001
 - **Interval:** 60 seconds
 - **Alert on:** Service down
 
 ### Prometheus Metrics (Phase 0 - Component 4)
 
-**Endpoint:** http://192.168.0.193:5000/health (to be added)
+**Endpoint:** http://192.168.0.193:5001/health (to be added)
 
 **Metrics to collect:**
 - Request count
@@ -103,8 +103,8 @@ WantedBy=multi-user.target
 **Tunnel Configuration:** `/etc/cloudflared/config.yml`
 ```yaml
 ingress:
-  - hostname: pi.honey-duo.com
-    service: http://localhost:5000
+  - hostname: games.honey-duo.com
+    service: http://localhost:5001
 ```
 
 **To update tunnel:**
@@ -170,8 +170,8 @@ systemctl status honeyduo-gaming
 # View detailed logs
 journalctl -u honeyduo-gaming -n 50
 
-# Check if port 5000 is in use
-sudo ss -tlnp | grep :5000
+# Check if port 5001 is in use
+sudo ss -tlnp | grep :5001
 
 # Verify venv exists
 ls -la /home/honeyduopi/Desktop/HoneyDuoGaming/venv/
@@ -183,7 +183,7 @@ ls -la /home/honeyduopi/Desktop/HoneyDuoGaming/venv/
 sudo systemctl status cloudflared
 
 # Check local access first
-curl -I http://localhost:5000
+curl -I http://localhost:5001
 
 # Check tunnel logs
 sudo journalctl -u cloudflared -n 50
