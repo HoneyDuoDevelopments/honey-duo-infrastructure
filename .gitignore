@@ -68,3 +68,4 @@ docker-compose.override.yml
 !*.example
 !*-example.yml
 pi/vaultwarden/data/
+pi/uptime-kuma/data/
