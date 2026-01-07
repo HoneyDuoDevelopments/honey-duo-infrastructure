@@ -37,3 +37,4 @@ sudo systemctl restart honeyduo-portal
 | Gaming | games.honey-duo.com | 5001 |
 | Vaultwarden | vault.honey-duo.com | 8080 |
 | Pi-hole | pihole.honey-duo.com | 80 |
+| Monitoring | monitor.honey-duo.com | Ubuntu | Grafana dashboards |
