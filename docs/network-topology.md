@@ -86,3 +86,8 @@ WireGuard VPN: 10.8.0.0/24
 ### Future: WireGuard VPN
 - Port 51820 UDP - Only external port forward needed
 - Provides direct network access when remote
+
+## Updated Routes (January 2026)
+
+### Ubuntu Tunnel Routes
+- monitor.honey-duo.com → Grafana (Port 3000) ✅ Active
