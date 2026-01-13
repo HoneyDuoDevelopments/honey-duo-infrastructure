@@ -1,0 +1,27 @@
+services:
+  code-server:
+    image: codercom/code-server:latest
+    container_name: code-server
+    restart: unless-stopped
+    
+    environment:
+      - PASSWORD=${CODE_SERVER_PASSWORD}
+      - SUDO_PASSWORD=${CODE_SERVER_PASSWORD}
+      - DEFAULT_WORKSPACE=/home/coder/workspace
+    
+    ports:
+      - "8443:8080"
+    
+    volumes:
+      # Main workspace - your home directory
+      - /home/honey-duo:/home/coder/workspace
+      # Config persistence
+      - ./config:/home/coder/.local/share/code-server
+    
+    user: "1000:1000"  # Run as your user ID
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

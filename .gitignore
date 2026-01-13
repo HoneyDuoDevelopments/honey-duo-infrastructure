@@ -69,3 +69,20 @@ docker-compose.override.yml
 !*-example.yml
 pi/vaultwarden/data/
 pi/uptime-kuma/data/
+
+# Monitoring data directories (exclude, but keep configs)
+ubuntu/monitoring/prometheus/data/
+ubuntu/monitoring/grafana/data/
+ubuntu/monitoring/loki/data/
+ubuntu/monitoring/alertmanager/data/
+
+# Keep these config/dashboard files
+!ubuntu/monitoring/grafana/dashboards/*.json
+!ubuntu/monitoring/grafana/provisioning/**/*.yml
+!ubuntu/monitoring/prometheus/*.yml
+!ubuntu/monitoring/loki/*.yml
+!ubuntu/monitoring/alertmanager/*.yml
+
+# code-server data (exclude, keep configs)
+ubuntu/code-server/config/
+ubuntu/code-server/.env

@@ -91,3 +91,6 @@ WireGuard VPN: 10.8.0.0/24
 
 ### Ubuntu Tunnel Routes
 - monitor.honey-duo.com → Grafana (Port 3000) ✅ Active
+
+### Latest Ubuntu Services (January 2026)
+- code.honey-duo.com → code-server (Port 8443) ✅ Active - VSCode in browser

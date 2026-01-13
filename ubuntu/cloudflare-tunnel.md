@@ -43,3 +43,6 @@ cloudflared tunnel ingress validate
 ## Current Config
 
 See: `/etc/cloudflared/config.yml`
+
+## Updated Routes (January 2026)
+- code.honey-duo.com → code-server (Port 8443) ✅ Active
