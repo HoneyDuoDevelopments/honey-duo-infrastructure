@@ -1,0 +1,63 @@
+groups:
+  - name: infrastructure
+    interval: 30s
+    rules:
+      # Service Down Alerts
+      - alert: ServiceDown
+        expr: up == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Service {{ $labels.job }} is down"
+          description: "{{ $labels.instance }} has been down for more than 2 minutes."
+
+      # High CPU Usage
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is above 80% for more than 5 minutes (current: {{ $value | humanize }}%)."
+
+      # High Memory Usage
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage on {{ $labels.instance }}"
+          description: "Memory usage is above 85% (current: {{ $value | humanize }}%)."
+
+      # Disk Space Low
+      - alert: DiskSpaceLow
+        expr: (node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.lxcfs|squashfs|vfat"} / node_filesystem_size_bytes) * 100 < 15
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low disk space on {{ $labels.instance }}"
+          description: "Disk {{ $labels.mountpoint }} has less than 15% space remaining (current: {{ $value | humanize }}%)."
+
+      # GPU Temperature High
+      - alert: GPUTemperatureHigh
+        expr: nvidia_gpu_temperature_celsius > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High GPU temperature"
+          description: "GPU temperature is above 85°C (current: {{ $value }}°C)."
+
+      # Pi Temperature High
+      - alert: PiTemperatureHigh
+        expr: node_hwmon_temp_celsius{chip="cpu_thermal"} > 75
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "High Pi temperature"
+          description: "Raspberry Pi CPU temperature is above 75°C (current: {{ $value }}°C)."

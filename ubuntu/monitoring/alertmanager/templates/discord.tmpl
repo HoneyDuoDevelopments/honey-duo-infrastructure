@@ -1,0 +1,26 @@
+{{ define "discord.default" }}
+{
+  "username": "Honey Duo Alerts",
+  "embeds": [{
+    "title": "{{ if eq .Status "firing" }}🔴 ALERT{{ else }}✅ RESOLVED{{ end }}: {{ .GroupLabels.alertname }}",
+    "description": "{{ range .Alerts }}**{{ .Labels.instance }}**: {{ .Annotations.summary }}\n{{ .Annotations.description }}\n{{ end }}",
+    "color": {{ if eq .Status "firing" }}15158332{{ else }}3066993{{ end }},
+    "fields": [
+      {
+        "name": "Status",
+        "value": "{{ .Status }}",
+        "inline": true
+      },
+      {
+        "name": "Severity",
+        "value": "{{ .CommonLabels.severity }}",
+        "inline": true
+      }
+    ],
+    "footer": {
+      "text": "Honey Duo Infrastructure"
+    },
+    "timestamp": "{{ (index .Alerts 0).StartsAt }}"
+  }]
+}
+{{ end }}

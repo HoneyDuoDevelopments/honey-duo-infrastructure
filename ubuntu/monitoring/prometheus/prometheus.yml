@@ -1,0 +1,53 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'honey-duo'
+    environment: 'production'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager:9093
+
+# Load alert rules
+rule_files:
+  - '/etc/prometheus/alerts/*.yml'
+  - '/etc/prometheus/recording-rules/*.yml'
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          instance: 'prometheus-server'
+          host: 'ubuntu'
+
+  # Ubuntu system metrics
+  - job_name: 'ubuntu-node'
+    static_configs:
+      - targets: ['node-exporter:9100']
+        labels:
+          instance: 'ubuntu-system'
+          host: 'ubuntu'
+
+  # Ubuntu GPU metrics
+  - job_name: 'ubuntu-gpu'
+    static_configs:
+      - targets: ['gpu-exporter:9400']
+        labels:
+          instance: 'ubuntu-gpu'
+          host: 'ubuntu'
+
+  # Raspberry Pi metrics
+  - job_name: 'pi-node'
+    static_configs:
+      - targets: ['192.168.0.193:9100']
+        labels:
+          instance: 'raspberry-pi'
+          host: 'pi'
+

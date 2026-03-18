@@ -38,3 +38,6 @@ sudo systemctl restart honeyduo-portal
 | Vaultwarden | vault.honey-duo.com | 8080 |
 | Pi-hole | pihole.honey-duo.com | 80 |
 | Monitoring | monitor.honey-duo.com | Ubuntu | Grafana dashboards |
+
+### Ubuntu Services Added
+| Code Server | code.honey-duo.com | Ubuntu | VSCode in browser |
