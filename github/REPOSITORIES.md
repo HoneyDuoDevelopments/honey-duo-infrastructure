@@ -102,6 +102,27 @@ Master reference for all GitHub repositories in the Honey Duo ecosystem.
 
 **Development starts:** After Phase 0 and initial trading strategy design
 
+### 5. Duo-Wealth
+**URL:** https://github.com/HoneyDuoDevelopments/Duo-Wealth
+**Purpose:** Algorithmic trading strategy incubator — research, backtest, validate, deploy
+**System:** Ubuntu RTX 3090
+**Location:** `/home/honey-duo/Duo-Wealth`
+**Status:** 🚧 Active — Phase 1A Data Foundation
+
+**What's here:**
+- Data layer pipeline (M1) — ingestion, normalization, validation
+- PostgreSQL operational database (security master, prices, corporate actions)
+- Parquet research warehouse (backtest-ready datasets)
+- Strategy incubator framework (future phases)
+
+**Integration:**
+- PostgreSQL test instance on port 5433, prod on port 5434
+- Monitored via Uptime Kuma (TCP health check)
+- Credentials in Vaultwarden → Infrastructure
+- See: `ubuntu/duo-wealth/README.md` in infrastructure repo
+
+**Development starts:** April 2026
+
 ---
 
 ## Future Repositories
@@ -135,6 +156,7 @@ Master reference for all GitHub repositories in the Honey Duo ecosystem.
 ├── design-duo/                   # AI generation (Phase 1)
 └── ira-trading-duo/              # Trading bots (Future)
 ```
+| Duo-Wealth | `~/Duo-Wealth` | Trading strategy incubator |
 
 ---
 
@@ -235,6 +257,9 @@ cd ~/design-duo && git pull
 
 # TradingDuo (Ubuntu only - Future)
 cd ~/ira-trading-duo && git pull
+
+# Duo Wealth (Ubuntu only)
+cd ~/Duo-Wealth && git pull
 ```
 
 **GitHub organization:**

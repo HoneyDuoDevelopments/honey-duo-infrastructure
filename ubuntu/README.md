@@ -54,6 +54,9 @@ ingress:
 - **GPU:** RTX 3090 (24GB VRAM)
 - **Access:** https://design.honey-duo.com
 
+| 5433 | PostgreSQL (Duo Wealth Test) | 🚧 Phase 1A |
+| 5434 | PostgreSQL (Duo Wealth Prod) | 🔜 After validation |
+
 ## Future Services
 
 ### IRA Trading
