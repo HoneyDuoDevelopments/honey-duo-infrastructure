@@ -1,272 +1,150 @@
-# Honey Duo - GitHub Repositories
+# Honey Duo — Repository Index
 
-Master reference for all GitHub repositories in the Honey Duo ecosystem.
-
-**Purpose:** This document ensures Claude has access to all code for assistance and code review.
+**Organization:** https://github.com/HoneyDuoDevelopments  
+**Last Updated:** May 2026  
+**Maintained By:** Sam
 
 ---
 
 ## Active Repositories
 
-### 1. honey-duo-infrastructure
+### honey-duo-infrastructure
 **URL:** https://github.com/HoneyDuoDevelopments/honey-duo-infrastructure  
-**Purpose:** Infrastructure configurations, monitoring, documentation  
-**Systems:** Both Pi and Ubuntu  
-**Location Pi:** `/home/honeyduopi/honey-duo-infrastructure`  
-**Location Ubuntu:** `/home/honey-duo/honey-duo-infrastructure`  
-**Status:** ✅ Active - Phase 0 in progress
-
-**What's here:**
-- All monitoring configurations (Prometheus, Grafana, Loki)
-- Service integration documentation
-- Network topology and architecture docs
-- Operational runbooks and procedures
-- This GitHub reference directory
-
-**Development workflow:**
-- Work on either system
-- Commit and push frequently
-- Pull on other system before starting work
-- See: `github/github-workflow-guide.md`
+**Purpose:** Infrastructure configs, documentation, service setup guides for the entire hive  
+**Systems:** Raspberry Pi 5 · Ubuntu RTX 3090 · Windows nodes  
+**Status:** ✅ Active — continuously updated  
 
 ---
 
-### 2. honey-duo-gaming
-**URL:** https://github.com/HoneyDuoDevelopments/honey-duo-gaming  
-**Purpose:** N64 emulation web control interface  
-**System:** Raspberry Pi  
-**Location:** `/home/honeyduopi/Desktop/HoneyDuoGaming`  
-**Status:** ✅ Active - Running in production
-
-**What's here:**
-- Flask web application for RetroArch control
-- Remote game launching interface
-- Save state management
-- Integration with Cloudflare tunnel (pi.honey-duo.com)
-
-**Integration:**
-- Monitored via Uptime Kuma
-- Logs shipped to Loki
-- Systemd service: `honeyduo-gaming.service`
-- See: `pi/gaming/README.md` in infrastructure repo
-
----
-
-### 3. design-duo
-**URL:** https://github.com/HoneyDuoDevelopments/design-duo  
-**Purpose:** AI image generation for Sticker Duo  
+### Budget-Duo
+**URL:** https://github.com/HoneyDuoDevelopments/Budget-Duo  
+**Purpose:** Self-hosted household finance and budgeting app — Teller banking API integration  
 **System:** Ubuntu RTX 3090  
-**Location:** `/home/honey-duo/design-duo`  
-**Status:** 🚧 Placeholder - Phase 1
+**Location:** `~/Budget-Duo`  
+**Live at:** https://budget.honey-duo.com  
+**Stack:** FastAPI · PostgreSQL 16 · React (no build step)  
+**Status:** ✅ Live — V4.1.1
 
-**What will be here:**
-- ComfyUI integration
-- API wrapper for programmatic access
-- Model configurations (SDXL, LoRAs)
-- Batch processing queue
-- Integration with Sticker Duo platform
+**Services:**
+- `budget-duo-backend` — FastAPI on `:8500`
+- `budget-duo-db` — PostgreSQL on `:5432`
 
 **Integration:**
-- Will use RTX 3090 GPU (24GB VRAM)
-- Monitored via Uptime Kuma, Prometheus, Grafana
-- Logs to Loki
-- External access via Cloudflare tunnel
-- See: `ubuntu/design-duo/README.md` in infrastructure repo
-
-**Development starts:** After Phase 0 complete
+- Cloudflare tunnel → `budget.honey-duo.com`
+- Cloudflare Access — email OTP
+- Credentials in Vaultwarden → Infrastructure
 
 ---
 
-### 4. ira-trading-duo
-**URL:** https://github.com/HoneyDuoDevelopments/ira-trading-duo  
-**Purpose:** Automated trading infrastructure  
-**System:** Ubuntu  
-**Location:** `/home/honey-duo/ira-trading-duo`  
-**Status:** 🚧 Placeholder - Future phase
+### honey-duo-gaming
+**URL:** https://github.com/HoneyDuoDevelopments/honey-duo-gaming  
+**Purpose:** Gaming hub — currently Pi-based N64 controller, expanding to multi-system cloud gaming  
+**System:** Raspberry Pi 5 (current) · 3070 Ti + 1070 Windows nodes (expanding)  
+**Location:** `/home/honeyduopi/Desktop/HoneyDuoGaming` (Pi)  
+**Live at:** https://games.honey-duo.com  
+**Status:** 🚧 Active — expanding to Moonlight/Sunshine multi-system setup
 
-**What will be here:**
-- Trading bot framework
-- Broker API integrations
-- Strategy implementations
-- Database schema and migrations
-- Comprehensive test suite
-- Audit logging system
+**Planned expansion:**
+- Sunshine streaming host on 3070 Ti and 1070
+- GameCube · N64 · PS2 · Steam emulation on 3070 Ti
+- ROM file share from 3070 Ti to 1070
+- Revamped games.honey-duo.com UI
 
-**Integration:**
-- Critical monitoring (30s health checks)
-- Immediate Discord alerts on failure
-- Comprehensive audit logging to Loki
-- All secrets in Vaultwarden
-- Emergency access via VPN and web terminals
-- See: `ubuntu/ira-trading-duo/README.md` in infrastructure repo
+---
 
-**Development starts:** After Phase 0 and initial trading strategy design
-
-### 5. Duo-Wealth
-**URL:** https://github.com/HoneyDuoDevelopments/Duo-Wealth
-**Purpose:** Algorithmic trading strategy incubator — research, backtest, validate, deploy
-**System:** Ubuntu RTX 3090
-**Location:** `/home/honey-duo/Duo-Wealth`
+### Duo-Wealth
+**URL:** https://github.com/HoneyDuoDevelopments/Duo-Wealth  
+**Purpose:** Algorithmic trading strategy incubator — research, backtest, validate, deploy  
+**System:** Ubuntu RTX 3090  
+**Location:** `~/Duo-Wealth`  
 **Status:** 🚧 Active — Phase 1A Data Foundation
 
-**What's here:**
-- Data layer pipeline (M1) — ingestion, normalization, validation
-- PostgreSQL operational database (security master, prices, corporate actions)
-- Parquet research warehouse (backtest-ready datasets)
-- Strategy incubator framework (future phases)
+**Services:**
+- PostgreSQL test instance `:5433`
+- PostgreSQL prod instance `:5434`
 
 **Integration:**
-- PostgreSQL test instance on port 5433, prod on port 5434
-- Monitored via Uptime Kuma (TCP health check)
-- Credentials in Vaultwarden → Infrastructure
-- See: `ubuntu/duo-wealth/README.md` in infrastructure repo
-
-**Development starts:** April 2026
+- Credentials in Vaultwarden → Infrastructure → "Duo Wealth DB"
+- See: `ubuntu/duo-wealth/README.md`
 
 ---
 
-## Future Repositories
+### DataDuo
+**URL:** https://github.com/HoneyDuoDevelopments/DataDuo  
+**Purpose:** Market data pipeline — cloud deployment, enrichment API  
+**System:** Ubuntu RTX 3090  
+**Status:** 🚧 Active — early stage
 
-### sticker-duo (Planned)
+---
+
+## Archived Repositories
+
+### design-duo
+**URL:** https://github.com/HoneyDuoDevelopments/design-duo  
+**Purpose:** Local AI image generation using ComfyUI / Stable Diffusion XL  
+**Status:** 🗄️ **Archived — May 2026**  
+**Reason:** GPT image generation now produces superior results for all household use cases. Local SDXL inference no longer justified given GPU memory and disk cost on the 3090. Codebase and model weights removed from Ubuntu to free resources for Duo Wealth and DataDuo.  
+**Note:** Repository preserved for reference. Do not reinstall.
+
+---
+
+### ira-trading-duo
+**URL:** https://github.com/HoneyDuoDevelopments/ira-trading-duo  
+**Purpose:** Early trading bot placeholder  
+**Status:** 🗄️ **Archived — superseded by Duo-Wealth**  
+**Reason:** Duo Wealth is the full realization of this concept with proper architecture. IRA trading functionality will be a phase within Duo Wealth, not a separate repo.  
+**Note:** Repository preserved for reference only.
+
+---
+
+## Planned Repositories
+
+### sticker-duo (Concept)
 **Purpose:** E-commerce platform for custom stickers  
-**System:** TBD (likely Ubuntu or cloud)  
-**Status:** Concept phase
-
-**Will integrate with:**
-- DesignDuo for AI-generated designs
-- Vaultwarden for credentials
-- Monitoring infrastructure
+**System:** TBD  
+**Status:** 💡 Concept phase  
+**Will integrate with:** Cloudflare tunnels · Vaultwarden · Monitoring stack
 
 ---
 
-## Repository Locations Summary
+## System → Repository Map
 
-**Raspberry Pi:**
-```
-/home/honeyduopi/
-├── honey-duo-infrastructure/     # Infrastructure configs
-└── Desktop/
-    └── HoneyDuoGaming/            # Gaming app (legacy location)
-```
-
-**Ubuntu:**
-```
-/home/honey-duo/
-├── honey-duo-infrastructure/     # Infrastructure configs
-├── design-duo/                   # AI generation (Phase 1)
-└── ira-trading-duo/              # Trading bots (Future)
-```
-| Duo-Wealth | `~/Duo-Wealth` | Trading strategy incubator |
+| System | Repositories |
+|--------|-------------|
+| Raspberry Pi 5 | honey-duo-infrastructure · honey-duo-gaming |
+| Ubuntu RTX 3090 | honey-duo-infrastructure · Budget-Duo · Duo-Wealth · DataDuo |
+| 3070 Ti (coming) | honey-duo-gaming (Sunshine/emulation expansion) |
+| 1070 (coming) | honey-duo-gaming (Moonlight client) |
+| All systems | honey-duo-infrastructure |
 
 ---
 
 ## SSH Keys for GitHub
 
-**Account-level SSH keys** (work for all repos):
+Both systems use account-level SSH keys (work for all repos):
 
-**Pi:** `~/.ssh/id_ed25519_new` (no passphrase)  
-**Ubuntu:** `~/.ssh/id_ed25519_new` (no passphrase)
+**Pi:** `~/.ssh/id_ed25519_new`  
+**Ubuntu:** `~/.ssh/id_ed25519_new`  
 
-Both added to GitHub account settings (not per-repo deploy keys).
-
----
-
-## Giving Claude Access
-
-**Why this structure exists:**
-
-Claude can access GitHub repositories to:
-- Review code and provide suggestions
-- Understand full context of projects
-- Help debug issues with access to actual code
-- Provide accurate integration guidance
-- See commit history and understand changes
-
-**How to share code with Claude:**
-
-1. **For quick questions:**
-   - Share the GitHub URL: `https://github.com/HoneyDuoDevelopments/repo-name`
-   - Claude can browse public files
-
-2. **For private repos (current setup):**
-   - Share specific code snippets in conversation
-   - OR add Claude's analysis tools as collaborator (if needed)
-   - OR temporarily make repo public for review (then private again)
-
-3. **For comprehensive review:**
-   - Commit and push current code
-   - Share GitHub URL with Claude
-   - Claude can review entire codebase structure
-
-**Best practice:**
-- Commit and push code FREQUENTLY
-- Keep README.md updated in each repo
-- Add comments to complex code
-- This gives Claude maximum context to help you
-
----
-
-## Workflow for New Repositories
-
-When creating a new project repository:
-
-1. **Create on GitHub** (via web interface)
-2. **Clone locally** (on appropriate system)
-3. **Add to this document** (REPOSITORIES.md)
-4. **Create integration folder** in infrastructure repo
-5. **Document in infrastructure** (pi/ or ubuntu/ directory)
-6. **First commit** with basic structure
-7. **Share with Claude** for initial review
-
-See: `github/github-workflow-guide.md` → "Adding New Repositories"
-
----
-
-## Repository Maintenance
-
-**Weekly:**
-- Review commit activity across all repos
-- Ensure all repos have recent commits (if active development)
-- Check that infrastructure docs match actual deployments
-
-**Monthly:**
-- Review and update this REPOSITORIES.md
-- Verify all SSH keys still working
-- Check for any stale branches
-
-**When starting new project:**
-- Create GitHub repo FIRST
-- Update this document IMMEDIATELY
-- Set up integration folder in infrastructure repo
-- Document before coding (makes Claude more helpful)
+Added to GitHub account settings — not per-repo deploy keys.
 
 ---
 
 ## Quick Reference
 
-**All repositories:**
 ```bash
-# Infrastructure
+# Infrastructure (Pi or Ubuntu)
 cd ~/honey-duo-infrastructure && git pull
 
-# Gaming (Pi only)
+# Budget Duo (Ubuntu)
+cd ~/Budget-Duo && git pull
+
+# Gaming (Pi)
 cd ~/Desktop/HoneyDuoGaming && git pull
 
-# DesignDuo (Ubuntu only - Phase 1)
-cd ~/design-duo && git pull
-
-# TradingDuo (Ubuntu only - Future)
-cd ~/ira-trading-duo && git pull
-
-# Duo Wealth (Ubuntu only)
+# Duo Wealth (Ubuntu)
 cd ~/Duo-Wealth && git pull
+
+# DataDuo (Ubuntu)
+cd ~/DataDuo && git pull
 ```
-
-**GitHub organization:**
-https://github.com/HoneyDuoDevelopments
-
----
-
-**Last Updated:** December 31, 2025  
-**Maintained By:** Sam  
-**Review Frequency:** Weekly during active development
