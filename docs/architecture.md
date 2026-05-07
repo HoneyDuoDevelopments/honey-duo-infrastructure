@@ -53,12 +53,13 @@ Dedicated emulation and streaming box.
 - PS1 + N64 emulation (RetroArch)
 - Steam gaming
 
-### RTX 3070 Ti Gaming Hub — TBD IP *(coming online)*
+### RTX 3070 Ti Gaming Hub — `192.168.0.244`
 Primary gaming host and ROM server.
 - Sunshine streaming host
-- Central ROM library (shared to 1070 via Samba)
+- Central ROM library (shared to 1070 via Samba — planned)
 - GameCube / N64 / PS2 emulation
 - Steam gaming
+- **Hardware:** Ryzen 5 5500, ASUS Prime B550M-A WIFI II, 16GB DDR4-3200, RTX 3070 Ti, 750W PSU, ASUS Prime AP201 case
 
 ---
 
@@ -133,7 +134,7 @@ Uptime Kuma (Pi :3001) — uptime and status page
 ## Future Architecture (Phase 1 targets)
 
 - WireGuard VPN mesh across all 5 nodes
-- Static IP reservations for all nodes in router
+- ~~Static IP reservations for all nodes in router~~ ✅ Complete (May 2026)
 - Pi-hole local DNS hostnames (`.home` domain)
 - Unbound recursive DNS (no upstream provider)
 - windows_exporter on both Windows gaming nodes → Prometheus

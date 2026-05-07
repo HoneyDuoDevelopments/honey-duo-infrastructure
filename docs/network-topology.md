@@ -38,7 +38,7 @@ TP-Link Archer Router (192.168.0.1)
 ├── DHCP Pool: 192.168.0.100–249
 ├── DNS: 192.168.0.193 (Pi-hole)
 │
-├── Raspberry Pi 5 (192.168.0.193) — Static
+├── Raspberry Pi 5 (192.168.0.193) — Static (DHCP reservation)
 │   ├── Pi-hole       :53 / :80
 │   ├── Portal        :5000
 │   ├── Gaming        :5001
@@ -66,7 +66,7 @@ TP-Link Archer Router (192.168.0.1)
 │   ├── RetroArch      (local)
 │   └── Steam          (local)
 │
-├── RTX 3070 Ti Gaming Hub (TBD) — Static (DHCP reservation, pending)
+├── RTX 3070 Ti Gaming Hub (192.168.0.244) — Static (DHCP reservation)
 │   ├── Sunshine       :47990
 │   ├── ROM share      (Samba, planned)
 │   └── Steam          (local)
@@ -75,6 +75,21 @@ TP-Link Archer Router (192.168.0.1)
     ├── WireGuard client
     └── Moonlight client
 ```
+
+---
+
+## DHCP Reservations
+
+All static IPs are managed via DHCP reservation in the TP-Link Archer router (no per-host static config).
+
+| IP | Hostname | MAC | Notes |
+|---|---|---|---|
+| 192.168.0.137 | gtx-1070-gaming-node | *(TBD — capture from router)* | Sunshine streaming + emulation |
+| 192.168.0.193 | honeyduo-pi58gb | *(TBD — capture from router)* | Pi 5 — always-on services |
+| 192.168.0.244 | rtx-3070-ti-gaming-hub | `30-C5-99-74-8B-E2` | Primary gaming host + ROM server |
+| 192.168.0.245 | honey-duo-MS-7B98 | *(TBD — capture from router)* | Ubuntu — compute + monitoring |
+
+> **Action item:** capture remaining MACs from TP-Link reservation list and fill in this table.
 
 ---
 
@@ -163,3 +178,9 @@ Only planned external port forward: `51820 UDP → 192.168.0.245` (WireGuard VPN
 | Port | Service |
 |------|---------|
 | 47990 | Sunshine web UI + pairing |
+
+### Internal Services — RTX 3070 Ti (`192.168.0.244`)
+| Port | Service |
+|------|---------|
+| 47990 | Sunshine web UI + pairing |
+| 445 | Samba ROM share (planned) |
